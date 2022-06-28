@@ -1,8 +1,17 @@
-import React ,{useState}from 'react'
+import React ,{useState,useEffect}from 'react'
 import { GrFormAdd ,GrFormTrash} from "react-icons/gr";
+
+const getLocalstorage=()=>{
+    let lists=localStorage.getItem('list')
+if(lists){
+    return JSON.parse(localStorage.getItem('list'))
+}else{
+    return []
+}
+}
 const TodoList = () => {
     const[inputData,setInputData]=useState('')
-    const[items,setItems]=useState([])
+    const[items,setItems]=useState(getLocalstorage())
 
 
     const addItem=()=>{
@@ -21,6 +30,14 @@ const TodoList = () => {
         })
         setItems(updateData)
     }
+    // const removeAll=()=>{
+    //     setItems([])
+    // }
+
+    //loacl storage
+    useEffect(() => {
+       localStorage.setItem('list',JSON.stringify(items))
+    }, [items])
   return (
     <div>
     <h3 >ToDo List</h3>
